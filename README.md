@@ -5,7 +5,7 @@ Simplified cinema API which shows the information about movies and comments.
 
 
 **movies**
-* `/movies/ GET` get the list of movies
+* `/movies/ GET  (Optional): param: '?ordering=' values: '(-)release_date' | '(-)comments_count' ` get the list of movies
 * `/movies/ POST` create movie
 * `/movies/<id>/ GET` get movie details
 * `/movies/<id>/ PUT` update movie
