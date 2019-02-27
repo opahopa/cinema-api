@@ -43,7 +43,7 @@ class MovieViewTestCase(APITestCase):
         serializer = CommentSerializer(comment)
 
         response = self.client.put(reverse('comment-detail', kwargs={'parent_lookup_movie': 1, 'pk': 1}),
-                                   serializer.data,
+                                   {**serializer.data, **{'movie': 1}},
                                    format="json")
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)

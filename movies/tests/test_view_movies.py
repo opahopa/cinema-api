@@ -5,7 +5,7 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 from django.urls import reverse
 from ..models import Movie
-from ..serializers import MovieSerializer
+from ..serializers import MovieDetailSerializer
 
 
 class MovieViewTestCase(APITestCase):
@@ -26,7 +26,7 @@ class MovieViewTestCase(APITestCase):
     def test_create_invalid_movie(self):
         """ this can be expended to test each param """
 
-        movie_data = {'title': ('s' for i in range(0, 300)),
+        movie_data = {'title': ''.join(('s' for i in range(0, 300))),
                       'description': 'great movie0',
                       'director': 'Mr. Black',
                       'release_date': '2340-01-2388888',
@@ -50,10 +50,16 @@ class MovieViewTestCase(APITestCase):
         self.assertEqual(self.response.data['title'], movie.title)
 
     def test_show_comments_count(self):
+        response = self.client.get(reverse('movie-list'), format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data[0]['comments_count'], 0)
+
+    def test_show_comments(self):
         response = self.client.get(reverse('movie-detail', kwargs={'pk': 1}), format="json")
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['comments_count'], 0)
+        self.assertTrue(response.data['comments'] is not None)
 
     def test_filter_orderby_release_date_desc(self):
         self.async_run(self.add_more_movies)
@@ -97,7 +103,7 @@ class MovieViewTestCase(APITestCase):
         movie = Movie.objects.get(pk=1)
         movie.description = 'new description'
 
-        serializer = MovieSerializer(movie)
+        serializer = MovieDetailSerializer(movie)
 
         response = self.client.put(reverse('movie-detail', kwargs={'pk': 1}), serializer.data, format="json")
 
