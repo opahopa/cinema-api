@@ -3,7 +3,8 @@ Simplified cinema API which shows the information about movies and comments.
 
 ### urls
 
-####movies
+
+**movies**
 * `/movies/ GET` get the list of movies
 * `/movies/ POST` create movie
 * `/movies/<id>/ GET` get movie details
@@ -11,7 +12,7 @@ Simplified cinema API which shows the information about movies and comments.
 * `/movies/<id>/ PATCH` edit movie
 * `/movies/<id>/ DELETE` delete movie
 
-####comments
+**comments**
 * `/movies/<id>/comments/ GET` get the list of movie comments
 * `/movies/<id>/comments/ POST` create comment
 * `/movies/<id>/comments/<id>/ GET` get comment details
